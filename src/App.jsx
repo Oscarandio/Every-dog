@@ -18,7 +18,6 @@ export function App() {
   const uniqueBreedGroups = Array.from(
     new Set(breeds.map((b) => b.breed_group).filter(Boolean))
   );
-
   // Creating  an object of the breed group list with the correct select format
   const breedGroupOptions = uniqueBreedGroups.map((group) => ({
     value: group,
@@ -67,6 +66,7 @@ export function App() {
         <aside className='flex justify-end lg:block lg:w-1/4'>
           <div className='bg-white w-full sticky top-6 left-0 z-10'>
             <Select
+              isClearable
               className='mb-3 w-full'
               // isMulti
               placeholder='Select a breed'
