@@ -24,6 +24,15 @@ export function App() {
     label: group,
   }));
 
+  const uniqueOrigins = Array.from(
+    new Set(breeds.map((b) => b.origin).filter(Boolean))
+  );
+
+  const originOptions = uniqueOrigins.map((origin) => ({
+    value: origin,
+    label: origin,
+  }));
+
   // Custom Styles for React-select
   const selectCustomStyles = {
     control: (base) => ({
@@ -45,12 +54,27 @@ export function App() {
   };
 
   // State for selected breed group
-  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [selectedBreedGroup, setSelectedBreedGroup] = useState(null);
+  const [selectedOrigin, setSelectedOrigin] = useState(null);
 
   // Filtrar razas según grupo seleccionado
-  const filteredBreeds = selectedGroup
-    ? breeds.filter((b) => b.breed_group === selectedGroup.value)
-    : breeds;
+  let filteredBreeds = breeds;
+
+  if (selectedBreedGroup) {
+    filteredBreeds = filteredBreeds.filter(
+      (b) => b.breed_group === selectedBreedGroup.value
+    );
+  }
+
+  if (selectedOrigin) {
+    filteredBreeds = filteredBreeds.filter(
+      (b) => b.origin === selectedOrigin.value
+    );
+  }
+
+
+    
+    
 
   // State for the dog selected to show more info
   const [selectedDog, setSelectedDog] = useState(null);
@@ -69,11 +93,20 @@ export function App() {
               isClearable
               className='mb-3 w-full'
               // isMulti
-              placeholder='Select a breed'
+              placeholder='Filter by breed'
               options={breedGroupOptions}
               styles={selectCustomStyles}
-              value={selectedGroup}
-              onChange={setSelectedGroup}
+              value={selectedBreedGroup}
+              onChange={setSelectedBreedGroup}
+            />
+            <Select
+              isClearable
+              className='mb-3 w-full'
+              placeholder='Filter by origin'
+              options={originOptions}
+              styles={selectCustomStyles}
+              value={selectedOrigin}
+              onChange={setSelectedOrigin}
             />
           </div>
         </aside>
